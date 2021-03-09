@@ -8,30 +8,28 @@ public class Main : NetworkBehaviour
 {
     public GameObject Header;
     public GameObject MatchMessage;
-    public GameObject MainMenu;
-    public GameObject HostButton;
-    public GameObject StopHost;
-    public GameObject JoinButton;
-    public GameObject StopJoin;
-    public GameObject StatusMessage;
+    public GameObject MainMenu;    
     public GameObject GameButtons;
     public GameObject RestartButton;
     public GameObject MenuButton;
+    public GameObject Easy;
+    public GameObject Normal;
+    public GameObject Hard;
     public GameObject SPManager_Instance;
+    public GameObject MPManager_Instance;
     public GameObject Network_Instance;
 
-    public bool SinglePlayer;
+    public bool SinglePlayer = false;
 
     void Start()
     {
         MenuWindow();
-        SinglePlayer = false;
     }
     
     
     void Update()
     {
-        GameEnded();
+        SPGameEnded();
     }
 
     public void MenuWindow()
@@ -39,13 +37,13 @@ public class Main : NetworkBehaviour
         GameButtons.SetActive(false);
         RestartButton.SetActive(false);
         MenuButton.SetActive(false);
+        Easy.SetActive(false);
+        Normal.SetActive(false);
+        Hard.SetActive(false);
         Header.SetActive(true);
         MainMenu.SetActive(true);
-        HostButton.SetActive(false);
-        JoinButton.SetActive(false);
-        StatusMessage.SetActive(false);
-        StopJoin.SetActive(false);
-        StopHost.SetActive(false);
+
+        // ---------CAMBIOS AL SINGLE PLAYER-----------
 
         SPManager_Instance.GetComponent<SPManager>().randomTurn = Random.Range(0, 2);
 
@@ -56,7 +54,7 @@ public class Main : NetworkBehaviour
 
         for (int i = 0; i < 9; i++)
         {
-            SPManager_Instance.GetComponent<SPManager>().Text[i].text = "";
+            SPManager_Instance.GetComponent<SPManager>().SPTexts[i].text = "";
         }
 
         SPManager_Instance.GetComponent<SPManager>().pressed1 = false;
@@ -71,6 +69,26 @@ public class Main : NetworkBehaviour
         SPManager_Instance.GetComponent<SPManager>().End = false;
 
         SPManager_Instance.GetComponent<SPManager>().Message.GetComponent<Text>().text = "";
+
+        // ---------CAMBIOS AL MULTIPLAYER--------
+
+        for (int i = 0; i < 9; i++)
+        {
+            MPManager_Instance.GetComponent<MPManager>().MPTexts[i].text = "";
+        }
+
+        MPManager_Instance.GetComponent<MPManager>().pressed1 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed2 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed3 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed4 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed5 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed6 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed7 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed8 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed9 = false;
+        MPManager_Instance.GetComponent<MPManager>().End = false;
+
+        MPManager_Instance.GetComponent<MPManager>().Message.GetComponent<Text>().text = "";
 
         Network_Instance.GetComponent<NetworkManagerHUD>().showGUI = false;
 
@@ -81,6 +99,8 @@ public class Main : NetworkBehaviour
         RestartButton.SetActive(false);
         MenuButton.SetActive(true);
 
+        // ---------CAMBIOS AL SINGLE PLAYER-----------
+
         SPManager_Instance.GetComponent<SPManager>().randomTurn = Random.Range(0, 2);
 
         if (SPManager_Instance.GetComponent<SPManager>().randomTurn == 0)
@@ -90,7 +110,7 @@ public class Main : NetworkBehaviour
 
         for (int i = 0; i < 9; i++)
         {
-            SPManager_Instance.GetComponent<SPManager>().Text[i].text = "";
+            SPManager_Instance.GetComponent<SPManager>().SPTexts[i].text = "";
         }
 
         SPManager_Instance.GetComponent<SPManager>().pressed1 = false;
@@ -105,16 +125,83 @@ public class Main : NetworkBehaviour
         SPManager_Instance.GetComponent<SPManager>().End = false;
 
         SPManager_Instance.GetComponent<SPManager>().Message.GetComponent<Text>().text = "";
+
+        // ---------CAMBIOS AL MULTIPLAYER--------
+
+        for (int i = 0; i < 9; i++)
+        {
+            MPManager_Instance.GetComponent<MPManager>().MPTexts[i].text = "";
+        }
+
+        MPManager_Instance.GetComponent<MPManager>().pressed1 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed2 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed3 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed4 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed5 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed6 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed7 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed8 = false;
+        MPManager_Instance.GetComponent<MPManager>().pressed9 = false;
+        MPManager_Instance.GetComponent<MPManager>().End = false;
+
+        MPManager_Instance.GetComponent<MPManager>().Message.GetComponent<Text>().text = "";
     }
 
     public void SinglePlayerWindow()
     {
         Header.SetActive(false);
         MainMenu.SetActive(false);
-        GameButtons.SetActive(true);
         MenuButton.SetActive(true);
+        Easy.SetActive(true);
+        Normal.SetActive(true);
+        Hard.SetActive(true);
 
         SinglePlayer = true;
+    }
+
+    public void EasyMode()
+    {
+        Easy.SetActive(false);
+        Normal.SetActive(false);
+        Hard.SetActive(false);
+        GameButtons.SetActive(true);
+
+        SPManager_Instance.GetComponent<SPManager>().EasyMode = true;
+        SPManager_Instance.GetComponent<SPManager>().NormalMode = false;
+        SPManager_Instance.GetComponent<SPManager>().HardMode = false;
+    }
+
+    public void NormalMode()
+    {
+        Easy.SetActive(false);
+        Normal.SetActive(false);
+        Hard.SetActive(false);
+        GameButtons.SetActive(true);
+
+        SPManager_Instance.GetComponent<SPManager>().EasyMode = false;
+        SPManager_Instance.GetComponent<SPManager>().NormalMode = true;
+        SPManager_Instance.GetComponent<SPManager>().HardMode = false;
+    }
+
+    public void HardMode()
+    {
+        Easy.SetActive(false);
+        Normal.SetActive(false);
+        Hard.SetActive(false);
+        GameButtons.SetActive(true);
+
+        SPManager_Instance.GetComponent<SPManager>().EasyMode = false;
+        SPManager_Instance.GetComponent<SPManager>().NormalMode = false;
+        SPManager_Instance.GetComponent<SPManager>().HardMode = true;
+    }
+
+    void SPGameEnded()
+    {
+        if (SPManager_Instance.GetComponent<SPManager>().End)
+        {
+            RestartButton.SetActive(true);
+            MenuButton.SetActive(true);
+        }
     }
 
     public void MultiPlayerWindow()
@@ -126,55 +213,5 @@ public class Main : NetworkBehaviour
         SinglePlayer = false;
 
         Network_Instance.GetComponent<NetworkManagerHUD>().showGUI = true;
-    }
-
-    public void Host()
-    {
-        HostButton.SetActive(false);
-        JoinButton.SetActive(false);
-        MenuButton.SetActive(false);
-    }
-
-    public void StopHosting()
-    {
-        StopHost.SetActive(false);
-        StatusMessage.SetActive(false);
-        MultiPlayerWindow();
-
-        /*Network_Instance.GetComponent<NetworkManagerScript>().OnClientDisconnect(connectionToServer);
-        Network_Instance.GetComponent<NetworkManagerScript>().OnStopClient();
-        Network_Instance.GetComponent<NetworkManagerScript>().OnStopServer();*/
-    }
-
-    public void Join()
-    {
-        HostButton.SetActive(false);
-        JoinButton.SetActive(false);
-        StatusMessage.SetActive(true);
-        MenuButton.SetActive(false);
-        StopJoin.SetActive(true);
-
-        Network_Instance.GetComponent<NetworkManagerScript>().OnStartClient();
-        Network_Instance.GetComponent<NetworkManagerScript>().OnClientConnect(connectionToServer);
-        Network_Instance.GetComponent<NetworkManagerScript>().OnServerReady(connectionToClient);
-    }
-
-    public void StopJoining()
-    {
-        StopJoin.SetActive(false);
-        StatusMessage.SetActive(false);
-        MultiPlayerWindow();
-
-        Network_Instance.GetComponent<NetworkManagerScript>().OnClientDisconnect(connectionToServer);
-        Network_Instance.GetComponent<NetworkManagerScript>().OnStopClient();
-    }
-
-    void GameEnded()
-    {
-        if (SPManager_Instance.GetComponent<SPManager>().End)
-        {
-            RestartButton.SetActive(true);
-            MenuButton.SetActive(true);
-        }
     }
 }

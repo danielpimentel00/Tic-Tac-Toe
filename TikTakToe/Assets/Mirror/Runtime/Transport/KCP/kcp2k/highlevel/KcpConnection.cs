@@ -98,7 +98,7 @@ namespace kcp2k
         // => 10k seems safe.
         //
         // note: we have a ChokeConnectionAutoDisconnects test for this too!
-        internal const int QueueDisconnectThreshold = 10000;
+        internal const int QueueDisconnectThreshold = 20000;
 
         // getters for queue and buffer counts, used for debug info
         public int SendQueueCount => kcp.snd_queue.Count;
@@ -178,7 +178,7 @@ namespace kcp2k
                 lastPingTime = time;
             }
         }
-
+        
         void HandleChoked()
         {
             // disconnect connections that can't process the load.

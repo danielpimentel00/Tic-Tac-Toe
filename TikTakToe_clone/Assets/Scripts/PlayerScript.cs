@@ -93,9 +93,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 1;
-        
-
-        Debug.Log("Jugada en la posicion 1");
     }
 
     [ClientRpc]
@@ -105,9 +102,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 0;
-
-
-        Debug.Log("Jugada en la posicion 1");
     }
 
     [Command]
@@ -133,9 +127,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 1;
-
-
-        Debug.Log("Jugada en la posicion 2");
     }
 
     [ClientRpc]
@@ -145,9 +136,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 0;
-
-
-        Debug.Log("Jugada en la posicion 2");
     }
 
     [Command]
@@ -173,9 +161,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 1;
-
-
-        Debug.Log("Jugada en la posicion 3");
     }
 
     [ClientRpc]
@@ -185,9 +170,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 0;
-
-
-        Debug.Log("Jugada en la posicion 3");
     }
 
     [Command]
@@ -213,9 +195,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 1;
-
-
-        Debug.Log("Jugada en la posicion 4");
     }
 
     [ClientRpc]
@@ -225,9 +204,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 0;
-
-
-        Debug.Log("Jugada en la posicion 4");
     }
 
     [Command]
@@ -253,9 +229,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 1;
-
-
-        Debug.Log("Jugada en la posicion 5");
     }
 
     [ClientRpc]
@@ -265,9 +238,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 0;
-
-
-        Debug.Log("Jugada en la posicion 5");
     }
 
     [Command]
@@ -293,9 +263,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 1;
-
-
-        Debug.Log("Jugada en la posicion 6");
     }
 
     [ClientRpc]
@@ -305,9 +272,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 0;
-
-
-        Debug.Log("Jugada en la posicion 6");
     }
 
     [Command]
@@ -333,9 +297,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 1;
-
-
-        Debug.Log("Jugada en la posicion 7");
     }
 
     [ClientRpc]
@@ -345,9 +306,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 0;
-
-
-        Debug.Log("Jugada en la posicion 7");
     }
 
     [Command]
@@ -373,9 +331,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 1;
-
-
-        Debug.Log("Jugada en la posicion 8");
     }
 
     [ClientRpc]
@@ -385,9 +340,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 0;
-
-
-        Debug.Log("Jugada en la posicion 8");
     }
 
     [Command]
@@ -413,9 +365,6 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 1;
-
-
-        Debug.Log("Jugada en la posicion 9");
     }
 
     [ClientRpc]
@@ -425,8 +374,5 @@ public class PlayerScript : NetworkBehaviour
         MPManager_Instance.GetComponent<MPManager>().PlayGame();
 
         MPManager_Instance.GetComponent<MPManager>().Turn = 0;
-
-
-        Debug.Log("Jugada en la posicion 9");
     }
 }

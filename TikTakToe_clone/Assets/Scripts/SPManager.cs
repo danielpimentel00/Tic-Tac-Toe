@@ -5,25 +5,28 @@ using UnityEngine.UI;
 
 public class SPManager : MonoBehaviour
 {
-    public GameObject[] SPButton;
+    public GameObject[] SPButtons;
 
     public GameObject Main_Instance;
 
-    public Text[] Text;
+    public Text[] SPTexts;
 
     public Text Message;
 
     public bool PlayerTurn;
-    public bool pressed1;
-    public bool pressed2;
-    public bool pressed3;
-    public bool pressed4;
-    public bool pressed5;
-    public bool pressed6;
-    public bool pressed7;
-    public bool pressed8;
-    public bool pressed9;
-    public bool End;
+    public bool pressed1 = false;
+    public bool pressed2 = false;
+    public bool pressed3 = false;
+    public bool pressed4 = false;
+    public bool pressed5 = false;
+    public bool pressed6 = false;
+    public bool pressed7 = false;
+    public bool pressed8 = false;
+    public bool pressed9 = false;
+    public bool End = false;
+    public bool EasyMode = false;
+    public bool NormalMode = false;
+    public bool HardMode = false;
 
     int random;
     public int randomTurn;
@@ -34,22 +37,11 @@ public class SPManager : MonoBehaviour
     void Start()
     {
         randomTurn = Random.Range(0, 2);
+
         if (randomTurn == 0)
             PlayerTurn = true;
         else
             PlayerTurn = false;
-
-        pressed1 = false;
-        pressed2 = false;
-        pressed3 = false;
-        pressed4 = false;
-        pressed5 = false;
-        pressed6 = false;
-        pressed7 = false;
-        pressed8 = false;
-        pressed9 = false;
-        End = false;
-
     }
 
     void Update()
@@ -63,68 +55,76 @@ public class SPManager : MonoBehaviour
         }
         
 
-        SPButton[0].GetComponent<Button>().onClick.AddListener(Play1);
-        SPButton[1].GetComponent<Button>().onClick.AddListener(Play2);
-        SPButton[2].GetComponent<Button>().onClick.AddListener(Play3);
-        SPButton[3].GetComponent<Button>().onClick.AddListener(Play4);
-        SPButton[4].GetComponent<Button>().onClick.AddListener(Play5);
-        SPButton[5].GetComponent<Button>().onClick.AddListener(Play6);
-        SPButton[6].GetComponent<Button>().onClick.AddListener(Play7);
-        SPButton[7].GetComponent<Button>().onClick.AddListener(Play8);
-        SPButton[8].GetComponent<Button>().onClick.AddListener(Play9);
+        SPButtons[0].GetComponent<Button>().onClick.AddListener(Play1);
+        SPButtons[1].GetComponent<Button>().onClick.AddListener(Play2);
+        SPButtons[2].GetComponent<Button>().onClick.AddListener(Play3);
+        SPButtons[3].GetComponent<Button>().onClick.AddListener(Play4);
+        SPButtons[4].GetComponent<Button>().onClick.AddListener(Play5);
+        SPButtons[5].GetComponent<Button>().onClick.AddListener(Play6);
+        SPButtons[6].GetComponent<Button>().onClick.AddListener(Play7);
+        SPButtons[7].GetComponent<Button>().onClick.AddListener(Play8);
+        SPButtons[8].GetComponent<Button>().onClick.AddListener(Play9);
         
     }
 
     void GameSense()
     {
-        if (PlayerTurn && pressed1 && Text[0].text == "")
+        if (PlayerTurn && pressed1 && SPTexts[0].text == "")
         {
-            Text[0].text = "X";
+            SPTexts[0].text = "X";
             PlayerTurn = false;
         }
-        else if(PlayerTurn && pressed2 && Text[1].text == "")
+        else if(PlayerTurn && pressed2 && SPTexts[1].text == "")
         {
-            Text[1].text = "X";
+            SPTexts[1].text = "X";
             PlayerTurn = false;
         }
-        else if (PlayerTurn && pressed3 && Text[2].text == "")
+        else if (PlayerTurn && pressed3 && SPTexts[2].text == "")
         {
-            Text[2].text = "X";
+            SPTexts[2].text = "X";
             PlayerTurn = false;
         }
-        else if (PlayerTurn && pressed4 && Text[3].text == "")
+        else if (PlayerTurn && pressed4 && SPTexts[3].text == "")
         {
-            Text[3].text = "X";
+            SPTexts[3].text = "X";
             PlayerTurn = false;
         }
-        else if (PlayerTurn && pressed5 && Text[4].text == "")
+        else if (PlayerTurn && pressed5 && SPTexts[4].text == "")
         {
-            Text[4].text = "X";
+            SPTexts[4].text = "X";
             PlayerTurn = false;
         }
-        else if (PlayerTurn && pressed6 && Text[5].text == "")
+        else if (PlayerTurn && pressed6 && SPTexts[5].text == "")
         {
-            Text[5].text = "X";
+            SPTexts[5].text = "X";
             PlayerTurn = false;
         }
-        else if (PlayerTurn && pressed7 && Text[6].text == "")
+        else if (PlayerTurn && pressed7 && SPTexts[6].text == "")
         {
-            Text[6].text = "X";
+            SPTexts[6].text = "X";
             PlayerTurn = false;
         }
-        else if (PlayerTurn && pressed8 && Text[7].text == "")
+        else if (PlayerTurn && pressed8 && SPTexts[7].text == "")
         {
-            Text[7].text = "X";
+            SPTexts[7].text = "X";
             PlayerTurn = false;
         }
-        else if (PlayerTurn && pressed9 && Text[8].text == "")
+        else if (PlayerTurn && pressed9 && SPTexts[8].text == "")
         {
-            Text[8].text = "X";
+            SPTexts[8].text = "X";
             PlayerTurn = false;
         }
-        else if(!PlayerTurn)
+        else if(!PlayerTurn && EasyMode)
         {
-            MachinePlay();
+            MachinePlayEasy();
+        }
+        else if (!PlayerTurn && NormalMode)
+        {
+            MachinePlayNormal();
+        }
+        else if (!PlayerTurn && HardMode)
+        {
+            MachinePlayHard();
         }
 
     }
@@ -174,706 +174,1539 @@ public class SPManager : MonoBehaviour
         pressed9 = true;
     }
 
-    void MachinePlay()
+    void MachinePlayEasy()
     {
-        for(int i = 0; i<100; i++)
-        { 
-            random = Random.Range(0, 5);
-            //primera jugada (si empieza la maquina)
-            if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[firstPlay[random]].text = "O";
-                break;
-            }
-            //jugada en el centro
-            else if(Text[4].text == "")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            //jugada en las esquinas
-            else if (Text[4].text == "X" && Text[0].text == "" && Text[2].text == "" && Text[6].text == "" && Text[8].text == "")
-            {
-                random = Random.Range(0, 4);
-                Text[corners[random]].text = "O";
-                break;
-            }
-            //evitar perder cuando juegan en el medio
-            else if(Text[4].text == "X" && Text[0].text == "O" && Text[8].text == "X" && Text[1].text == "" && Text[2].text == ""
-                && Text[3].text == "" && Text[5].text == "" && Text[6].text == "" && Text[7].text == "")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[4].text == "X" && Text[2].text == "O" && Text[6].text == "X" && Text[0].text == "" && Text[1].text == ""
-                && Text[3].text == "" && Text[5].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[4].text == "X" && Text[8].text == "O" && Text[0].text == "X" && Text[1].text == "" && Text[2].text == ""
-                && Text[3].text == "" && Text[5].text == "" && Text[6].text == "" && Text[7].text == "")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[4].text == "X" && Text[6].text == "O" && Text[2].text == "X" && Text[0].text == "" && Text[1].text == ""
-                && Text[3].text == "" && Text[5].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            //evitar perder cuando juegan en las esquinas
-            else if (Text[2].text == "X" && Text[4].text == "O" && Text[6].text == "X" && Text[0].text == "" && Text[1].text == ""
-                && Text[3].text == "" && Text[5].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                random = Random.Range(0, 4);
-                Text[notcorners[random]].text = "O";
-                break;
-            }
-            else if (Text[0].text == "X" && Text[4].text == "O" && Text[8].text == "X" && Text[1].text == "" && Text[2].text == ""
-                && Text[3].text == "" && Text[5].text == "" && Text[6].text == "" && Text[7].text == "")
-            {
-                random = Random.Range(0, 4);
-                Text[notcorners[random]].text = "O";
-                break;
-            }
-            //tratar de ganar con jugada en el centro (x en esquinas)
-            //1
-            else if(Text[2].text == "X" && Text[4].text == "O" && Text[0].text == "" && Text[1].text == "" && Text[3].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[2].text == "X" && Text[4].text == "O" && Text[0].text == "" && Text[1].text == "" && Text[3].text == "X"
-                && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[2].text == "X" && Text[4].text == "O" && Text[0].text == "" && Text[1].text == "" && Text[3].text == ""
-                && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "X" && Text[8].text == "")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            //2
-            else if (Text[0].text == "X" && Text[4].text == "O" && Text[1].text == "" && Text[2].text == "" && Text[3].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[0].text == "X" && Text[4].text == "O" && Text[1].text == "" && Text[2].text == "" && Text[3].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "X" && Text[8].text == "O")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[0].text == "X" && Text[4].text == "O" && Text[1].text == "" && Text[2].text == "" && Text[3].text == ""
-                && Text[5].text == "X" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "O")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            //3
-            else if (Text[4].text == "O" && Text[6].text == "X" && Text[0].text == "" && Text[1].text == "" && Text[2].text == ""
-                && Text[3].text == "" && Text[5].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[4].text == "O" && Text[6].text == "X" && Text[0].text == "" && Text[1].text == "" && Text[2].text == "O"
-                && Text[3].text == "" && Text[5].text == "X" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            else if (Text[4].text == "O" && Text[6].text == "X" && Text[0].text == "" && Text[1].text == "X" && Text[2].text == "O"
-                && Text[3].text == "" && Text[5].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            //4
-            else if (Text[4].text == "O" && Text[8].text == "X" && Text[0].text == "" && Text[1].text == "" && Text[2].text == ""
-                && Text[3].text == "" && Text[5].text == "" && Text[6].text == "" && Text[7].text == "")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            else if (Text[4].text == "O" && Text[8].text == "X" && Text[0].text == "O" && Text[1].text == "" && Text[2].text == ""
-                && Text[3].text == "X" && Text[5].text == "" && Text[6].text == "" && Text[7].text == "")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[4].text == "O" && Text[8].text == "X" && Text[0].text == "O" && Text[1].text == "X" && Text[2].text == ""
-                && Text[3].text == "" && Text[5].text == "" && Text[6].text == "" && Text[7].text == "")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            //tratar de ganar con jugada en el centro (x en no esquinas)
-            else if (Text[4].text == "O" && Text[1].text == "X" && Text[0].text == "" && Text[2].text == "" && Text[3].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[4].text == "O" && Text[5].text == "X" && Text[0].text == "" && Text[1].text == "" && Text[2].text == ""
-                && Text[3].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[4].text == "O" && Text[7].text == "X" && Text[0].text == "" && Text[1].text == "" && Text[2].text == ""
-                && Text[3].text == "" && Text[5].text == "" && Text[6].text == "" && Text[8].text == "")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[4].text == "O" && Text[3].text == "X" && Text[0].text == "" && Text[1].text == "" && Text[2].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            //tratar de ganar con jugada en esquina (x en centro)
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == "X"
-                && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == "X"
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "O" && Text[3].text == "" && Text[4].text == "X"
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == "X"
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "O")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            //tratar de ganar con jugada en esquina (x en esquina)
-            //1
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "X" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "X" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "X" && Text[8].text == "O")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            else if (Text[0].text == "X" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "" && Text[8].text == "X")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            //2
-            else if (Text[0].text == "O" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "X")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "X" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "" && Text[8].text == "X")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[1].text == "" && Text[2].text == "X" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "X" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            //3
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "O" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "X" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "O" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "X" && Text[6].text == "X" && Text[7].text == "" && Text[8].text == "O")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            else if (Text[0].text == "X" && Text[1].text == "" && Text[2].text == "O" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "O" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "X")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            //4
-            else if (Text[0].text == "X" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "O")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[0].text == "X" && Text[1].text == "" && Text[2].text == "O" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "X" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "O")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "X" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "O")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "X" && Text[7].text == "" && Text[8].text == "O")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            //tratar de ganar con jugada en esquina (x en no esquina)
-            //1
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "X" && Text[8].text == "")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "X" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "X" && Text[8].text == "")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "X" && Text[4].text == ""
-               && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "X" && Text[4].text == ""
-               && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "X" && Text[8].text == "O")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "X" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-               && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-               && Text[5].text == "X" && Text[6].text == "O" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            //2
-            else if (Text[0].text == "O" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "X" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[1].text == "X" && Text[2].text == "O" && Text[3].text == "X" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[1].text == "X" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-               && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[1].text == "X" && Text[2].text == "" && Text[3].text == "X" && Text[4].text == ""
-               && Text[5].text == "" && Text[6].text == "O" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-               && Text[5].text == "" && Text[6].text == "" && Text[7].text == "X" && Text[8].text == "")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-               && Text[5].text == "X" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            //3
-            else if (Text[0].text == "" && Text[1].text == "X" && Text[2].text == "O" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "X" && Text[2].text == "O" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "X" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "O")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "O" && Text[3].text == "" && Text[4].text == ""
-               && Text[5].text == "X" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[1].text == "X" && Text[2].text == "O" && Text[3].text == "" && Text[4].text == ""
-               && Text[5].text == "X" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "O" && Text[3].text == "X" && Text[4].text == ""
-               && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "O" && Text[3].text == "" && Text[4].text == ""
-               && Text[5].text == "" && Text[6].text == "" && Text[7].text == "X" && Text[8].text == "")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            //4
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "" && Text[6].text == "" && Text[7].text == "X" && Text[8].text == "O")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "O" && Text[3].text == "" && Text[4].text == ""
-                && Text[5].text == "X" && Text[6].text == "" && Text[7].text == "X" && Text[8].text == "O")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-               && Text[5].text == "X" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "O")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-               && Text[5].text == "X" && Text[6].text == "O" && Text[7].text == "X" && Text[8].text == "O")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "" && Text[2].text == "" && Text[3].text == "X" && Text[4].text == ""
-               && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "O")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            else if (Text[0].text == "" && Text[1].text == "X" && Text[2].text == "" && Text[3].text == "" && Text[4].text == ""
-               && Text[5].text == "" && Text[6].text == "" && Text[7].text == "" && Text[8].text == "O")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            //ultima jugada para ganar  
-            else if (Text[0].text == "O" && Text[1].text == "O" && Text[2].text == "")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[2].text == "O" && Text[1].text == "")
-            {
-                Text[1].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[3].text == "O" && Text[6].text == "")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[6].text == "O" && Text[3].text == "")
-            {
-                Text[3].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[4].text == "O" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[0].text == "O" && Text[8].text == "O" && Text[4].text == "")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            else if (Text[1].text == "O" && Text[2].text == "O" && Text[0].text == "")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            else if (Text[1].text == "O" && Text[4].text == "O" && Text[7].text == "")
-            {
-                Text[7].text = "O";
-                break;
-            }
-            else if (Text[1].text == "O" && Text[7].text == "O" && Text[4].text == "")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            else if (Text[2].text == "O" && Text[4].text == "O" && Text[6].text == "")
-            {
-                Text[6].text = "O";
-                break;
-            }
-            else if (Text[2].text == "O" && Text[6].text == "O" && Text[4].text == "")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            else if (Text[2].text == "O" && Text[5].text == "O" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[2].text == "O" && Text[8].text == "O" && Text[5].text == "")
-            {
-                Text[5].text = "O";
-                break;
-            }
-            else if (Text[3].text == "O" && Text[4].text == "O" && Text[5].text == "")
-            {
-                Text[5].text = "O";
-                break;
-            }
-            else if (Text[3].text == "O" && Text[5].text == "O" && Text[4].text == "")
-            {
-                Text[4].text = "O";
-                break;
-            }
-            else if (Text[3].text == "O" && Text[6].text == "O" && Text[0].text == "")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            else if (Text[4].text == "O" && Text[5].text == "O" && Text[3].text == "")
-            {
-                Text[3].text = "O";
-                break;
-            }
-            else if (Text[4].text == "O" && Text[7].text == "O" && Text[1].text == "")
-            {
-                Text[1].text = "O";
-                break;
-            }
-            else if (Text[4].text == "O" && Text[8].text == "O" && Text[0].text == "")
-            {
-                Text[0].text = "O";
-                break;
-            }
-            else if (Text[4].text == "O" && Text[6].text == "O" && Text[2].text == "")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[5].text == "O" && Text[8].text == "O" && Text[2].text == "")
-            {
-                Text[2].text = "O";
-                break;
-            }
-            else if (Text[6].text == "O" && Text[7].text == "O" && Text[8].text == "")
-            {
-                Text[8].text = "O";
-                break;
-            }
-            else if (Text[6].text == "O" && Text[8].text == "O" && Text[7].text == "")
-            {
-                Text[7].text = "O";
-                break;
-            }
-            else if (Text[7].text == "O" && Text[8].text == "O" && Text[6].text == "")
-            {
-                Text[6].text = "O";
-                break;
-            }
+        for (int i = 0; i < 100; i++)
+        {
+            random = Random.Range(0, 9);
+
             //jugada para evitar perder  
-            else if (Text[0].text == "X" && Text[1].text == "X" && Text[2].text == "")
+            if (SPTexts[0].text == "X" && SPTexts[1].text == "X" && SPTexts[2].text == "")
             {
-                Text[2].text = "O";
+                SPTexts[2].text = "O";
                 break;
             }
-            else if (Text[0].text == "X" && Text[2].text == "X" && Text[1].text == "")
+            else if (SPTexts[0].text == "X" && SPTexts[2].text == "X" && SPTexts[1].text == "")
             {
-                Text[1].text = "O";
+                SPTexts[1].text = "O";
                 break;
             }
-            else if (Text[0].text == "X" && Text[3].text == "X" && Text[6].text == "")
+            else if (SPTexts[0].text == "X" && SPTexts[3].text == "X" && SPTexts[6].text == "")
             {
-                Text[6].text = "O";
+                SPTexts[6].text = "O";
                 break;
             }
-            else if (Text[0].text == "X" && Text[6].text == "X" && Text[3].text == "")
+            else if (SPTexts[0].text == "X" && SPTexts[6].text == "X" && SPTexts[3].text == "")
             {
-                Text[3].text = "O";
+                SPTexts[3].text = "O";
                 break;
             }
-            else if (Text[0].text == "X" && Text[4].text == "X" && Text[8].text == "")
+            else if (SPTexts[0].text == "X" && SPTexts[4].text == "X" && SPTexts[8].text == "")
             {
-                Text[8].text = "O";
+                SPTexts[8].text = "O";
                 break;
             }
-            else if (Text[0].text == "X" && Text[8].text == "X" && Text[4].text == "")
+            else if (SPTexts[0].text == "X" && SPTexts[8].text == "X" && SPTexts[4].text == "")
             {
-                Text[4].text = "O";
+                SPTexts[4].text = "O";
                 break;
             }
-            else if (Text[1].text == "X" && Text[2].text == "X" && Text[0].text == "")
+            else if (SPTexts[1].text == "X" && SPTexts[2].text == "X" && SPTexts[0].text == "")
             {
-                Text[0].text = "O";
+                SPTexts[0].text = "O";
                 break;
             }
-            else if (Text[1].text == "X" && Text[4].text == "X" && Text[7].text == "")
+            else if (SPTexts[1].text == "X" && SPTexts[4].text == "X" && SPTexts[7].text == "")
             {
-                Text[7].text = "O";
+                SPTexts[7].text = "O";
                 break;
             }
-            else if (Text[1].text == "X" && Text[7].text == "X" && Text[4].text == "")
+            else if (SPTexts[1].text == "X" && SPTexts[7].text == "X" && SPTexts[4].text == "")
             {
-                Text[4].text = "O";
+                SPTexts[4].text = "O";
                 break;
             }
-            else if (Text[2].text == "X" && Text[4].text == "X" && Text[6].text == "")
+            else if (SPTexts[2].text == "X" && SPTexts[4].text == "X" && SPTexts[6].text == "")
             {
-                Text[6].text = "O";
+                SPTexts[6].text = "O";
                 break;
             }
-            else if (Text[2].text == "X" && Text[6].text == "X" && Text[4].text == "")
+            else if (SPTexts[2].text == "X" && SPTexts[6].text == "X" && SPTexts[4].text == "")
             {
-                Text[4].text = "O";
+                SPTexts[4].text = "O";
                 break;
             }
-            else if (Text[2].text == "X" && Text[5].text == "X" && Text[8].text == "")
+            else if (SPTexts[2].text == "X" && SPTexts[5].text == "X" && SPTexts[8].text == "")
             {
-                Text[8].text = "O";
+                SPTexts[8].text = "O";
                 break;
             }
-            else if (Text[2].text == "X" && Text[8].text == "X" && Text[5].text == "")
+            else if (SPTexts[2].text == "X" && SPTexts[8].text == "X" && SPTexts[5].text == "")
             {
-                Text[5].text = "O";
+                SPTexts[5].text = "O";
                 break;
             }
-            else if (Text[3].text == "X" && Text[4].text == "X" && Text[5].text == "")
+            else if (SPTexts[3].text == "X" && SPTexts[4].text == "X" && SPTexts[5].text == "")
             {
-                Text[5].text = "O";
+                SPTexts[5].text = "O";
                 break;
             }
-            else if (Text[3].text == "X" && Text[5].text == "X" && Text[4].text == "")
+            else if (SPTexts[3].text == "X" && SPTexts[5].text == "X" && SPTexts[4].text == "")
             {
-                Text[4].text = "O";
+                SPTexts[4].text = "O";
                 break;
             }
-            else if (Text[3].text == "X" && Text[6].text == "X" && Text[0].text == "")
+            else if (SPTexts[3].text == "X" && SPTexts[6].text == "X" && SPTexts[0].text == "")
             {
-                Text[0].text = "O";
+                SPTexts[0].text = "O";
                 break;
             }
-            else if (Text[4].text == "X" && Text[5].text == "X" && Text[3].text == "")
+            else if (SPTexts[4].text == "X" && SPTexts[5].text == "X" && SPTexts[3].text == "")
             {
-                Text[3].text = "O";
+                SPTexts[3].text = "O";
                 break;
             }
-            else if (Text[4].text == "X" && Text[7].text == "X" && Text[1].text == "")
+            else if (SPTexts[4].text == "X" && SPTexts[7].text == "X" && SPTexts[1].text == "")
             {
-                Text[1].text = "O";
+                SPTexts[1].text = "O";
                 break;
             }
-            else if (Text[4].text == "X" && Text[8].text == "X" && Text[0].text == "")
+            else if (SPTexts[4].text == "X" && SPTexts[8].text == "X" && SPTexts[0].text == "")
             {
-                Text[0].text = "O";
+                SPTexts[0].text = "O";
                 break;
             }
-            else if (Text[4].text == "X" && Text[6].text == "X" && Text[2].text == "")
+            else if (SPTexts[4].text == "X" && SPTexts[6].text == "X" && SPTexts[2].text == "")
             {
-                Text[2].text = "O";
+                SPTexts[2].text = "O";
                 break;
             }
-            else if (Text[5].text == "X" && Text[8].text == "X" && Text[2].text == "")
+            else if (SPTexts[5].text == "X" && SPTexts[8].text == "X" && SPTexts[2].text == "")
             {
-                Text[2].text = "O";
+                SPTexts[2].text = "O";
                 break;
             }
-            else if (Text[6].text == "X" && Text[7].text == "X" && Text[8].text == "")
+            else if (SPTexts[6].text == "X" && SPTexts[7].text == "X" && SPTexts[8].text == "")
             {
-                Text[8].text = "O";
+                SPTexts[8].text = "O";
                 break;
             }
-            else if (Text[6].text == "X" && Text[8].text == "X" && Text[7].text == "")
+            else if (SPTexts[6].text == "X" && SPTexts[8].text == "X" && SPTexts[7].text == "")
             {
-                Text[7].text = "O";
+                SPTexts[7].text = "O";
                 break;
             }
-            else if (Text[7].text == "X" && Text[8].text == "X" && Text[6].text == "")
+            else if (SPTexts[7].text == "X" && SPTexts[8].text == "X" && SPTexts[6].text == "")
             {
-                Text[6].text = "O";
+                SPTexts[6].text = "O";
                 break;
             }
             //default
-            else if (Text[random].text == "")
+            else if (SPTexts[random].text == "")
             {
-                Text[random].text = "O";
+                SPTexts[random].text = "O";
                 break;
             }
-            else if(Text[0].text != "" && Text[1].text != "" && Text[2].text != "" && Text[3].text != "" && Text[4].text != "" && Text[5].text != "" 
-                && Text[6].text != "" && Text[7].text != "" && Text[8].text != "")
+            else if (SPTexts[0].text != "" && SPTexts[1].text != "" && SPTexts[2].text != "" && SPTexts[3].text != "" && SPTexts[4].text != "" && SPTexts[5].text != ""
+                && SPTexts[6].text != "" && SPTexts[7].text != "" && SPTexts[8].text != "")
             {
                 End = true;
                 break;
             }
         }
 
-        if (Text[0].text != "" && Text[1].text != "" && Text[2].text != "" && Text[3].text != "" && Text[4].text != "" && Text[5].text != ""
-                && Text[6].text != "" && Text[7].text != "" && Text[8].text != "")
+        if (SPTexts[0].text != "" && SPTexts[1].text != "" && SPTexts[2].text != "" && SPTexts[3].text != "" && SPTexts[4].text != "" && SPTexts[5].text != ""
+                && SPTexts[6].text != "" && SPTexts[7].text != "" && SPTexts[8].text != "")
+        {
+            End = true;
+        }
+
+        pressed1 = false;
+        pressed2 = false;
+        pressed3 = false;
+        pressed4 = false;
+        pressed5 = false;
+        pressed6 = false;
+        pressed7 = false;
+        pressed8 = false;
+        pressed9 = false;
+        PlayerTurn = true;
+    }
+
+
+    void MachinePlayNormal()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            random = Random.Range(0, 9);
+
+            //primera jugada (si empieza la maquina)
+            if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                random = Random.Range(0, 5);
+                SPTexts[firstPlay[random]].text = "O";
+                break;
+            }
+            //jugada en el centro
+            else if (SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            //tratar de ganar con jugada en el centro (x en esquinas)
+            //1
+            else if (SPTexts[2].text == "X" && SPTexts[4].text == "O" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[3].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "X" && SPTexts[4].text == "O" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[3].text == "X"
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "X" && SPTexts[4].text == "O" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[3].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            //2
+            else if (SPTexts[0].text == "X" && SPTexts[4].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[4].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "X" && SPTexts[8].text == "O")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[4].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == ""
+                && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            //3
+            else if (SPTexts[4].text == "O" && SPTexts[6].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[6].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O"
+                && SPTexts[3].text == "" && SPTexts[5].text == "X" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[6].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "X" && SPTexts[2].text == "O"
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            //4
+            else if (SPTexts[4].text == "O" && SPTexts[8].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[8].text == "X" && SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "X" && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[8].text == "X" && SPTexts[0].text == "O" && SPTexts[1].text == "X" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            //tratar de ganar con jugada en el centro (x en no esquinas)
+            else if (SPTexts[4].text == "O" && SPTexts[1].text == "X" && SPTexts[0].text == "" && SPTexts[2].text == "" && SPTexts[3].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[5].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[7].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[3].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            //tratar de ganar con jugada en esquina (x en centro)
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == "X"
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == "X"
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == "X"
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == "X"
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            //tratar de ganar con jugada en esquina (x en esquina)
+            //1
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "X" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "X" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "X" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "X")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            //2
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "X")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "X")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "X" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "X" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            //3
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "X" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "X" && SPTexts[6].text == "X" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "X")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            //4
+            else if (SPTexts[0].text == "X" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "X" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "X" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            //tratar de ganar con jugada en esquina (x en no esquina)
+            //1
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "X" && SPTexts[8].text == "O")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "X" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "X" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            //2
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "X" && SPTexts[2].text == "O" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "X" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "X" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            //3
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "X" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "X" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "X" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            //4
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "X" && SPTexts[8].text == "O")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "X" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "X" && SPTexts[6].text == "O" && SPTexts[7].text == "X" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "X" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            //ultima jugada para ganar  
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "O" && SPTexts[2].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[2].text == "O" && SPTexts[1].text == "")
+            {
+                SPTexts[1].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[3].text == "O" && SPTexts[6].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[6].text == "O" && SPTexts[3].text == "")
+            {
+                SPTexts[3].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[4].text == "O" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[8].text == "O" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[1].text == "O" && SPTexts[2].text == "O" && SPTexts[0].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[1].text == "O" && SPTexts[4].text == "O" && SPTexts[7].text == "")
+            {
+                SPTexts[7].text = "O";
+                break;
+            }
+            else if (SPTexts[1].text == "O" && SPTexts[7].text == "O" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "O" && SPTexts[4].text == "O" && SPTexts[6].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "O" && SPTexts[6].text == "O" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "O" && SPTexts[5].text == "O" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "O" && SPTexts[8].text == "O" && SPTexts[5].text == "")
+            {
+                SPTexts[5].text = "O";
+                break;
+            }
+            else if (SPTexts[3].text == "O" && SPTexts[4].text == "O" && SPTexts[5].text == "")
+            {
+                SPTexts[5].text = "O";
+                break;
+            }
+            else if (SPTexts[3].text == "O" && SPTexts[5].text == "O" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[3].text == "O" && SPTexts[6].text == "O" && SPTexts[0].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[5].text == "O" && SPTexts[3].text == "")
+            {
+                SPTexts[3].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[7].text == "O" && SPTexts[1].text == "")
+            {
+                SPTexts[1].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[8].text == "O" && SPTexts[0].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[6].text == "O" && SPTexts[2].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[5].text == "O" && SPTexts[8].text == "O" && SPTexts[2].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[6].text == "O" && SPTexts[7].text == "O" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[6].text == "O" && SPTexts[8].text == "O" && SPTexts[7].text == "")
+            {
+                SPTexts[7].text = "O";
+                break;
+            }
+            else if (SPTexts[7].text == "O" && SPTexts[8].text == "O" && SPTexts[6].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            //jugada para evitar perder  
+            else if (SPTexts[0].text == "X" && SPTexts[1].text == "X" && SPTexts[2].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[2].text == "X" && SPTexts[1].text == "")
+            {
+                SPTexts[1].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[3].text == "X" && SPTexts[6].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[6].text == "X" && SPTexts[3].text == "")
+            {
+                SPTexts[3].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[4].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[8].text == "X" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[1].text == "X" && SPTexts[2].text == "X" && SPTexts[0].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[1].text == "X" && SPTexts[4].text == "X" && SPTexts[7].text == "")
+            {
+                SPTexts[7].text = "O";
+                break;
+            }
+            else if (SPTexts[1].text == "X" && SPTexts[7].text == "X" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "X" && SPTexts[4].text == "X" && SPTexts[6].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "X" && SPTexts[6].text == "X" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "X" && SPTexts[5].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "X" && SPTexts[8].text == "X" && SPTexts[5].text == "")
+            {
+                SPTexts[5].text = "O";
+                break;
+            }
+            else if (SPTexts[3].text == "X" && SPTexts[4].text == "X" && SPTexts[5].text == "")
+            {
+                SPTexts[5].text = "O";
+                break;
+            }
+            else if (SPTexts[3].text == "X" && SPTexts[5].text == "X" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[3].text == "X" && SPTexts[6].text == "X" && SPTexts[0].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "X" && SPTexts[5].text == "X" && SPTexts[3].text == "")
+            {
+                SPTexts[3].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "X" && SPTexts[7].text == "X" && SPTexts[1].text == "")
+            {
+                SPTexts[1].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "X" && SPTexts[8].text == "X" && SPTexts[0].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "X" && SPTexts[6].text == "X" && SPTexts[2].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[5].text == "X" && SPTexts[8].text == "X" && SPTexts[2].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[6].text == "X" && SPTexts[7].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[6].text == "X" && SPTexts[8].text == "X" && SPTexts[7].text == "")
+            {
+                SPTexts[7].text = "O";
+                break;
+            }
+            else if (SPTexts[7].text == "X" && SPTexts[8].text == "X" && SPTexts[6].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            //default
+            else if (SPTexts[random].text == "")
+            {
+                SPTexts[random].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text != "" && SPTexts[1].text != "" && SPTexts[2].text != "" && SPTexts[3].text != "" && SPTexts[4].text != "" && SPTexts[5].text != ""
+                && SPTexts[6].text != "" && SPTexts[7].text != "" && SPTexts[8].text != "")
+            {
+                End = true;
+                break;
+            }
+        }
+
+        if (SPTexts[0].text != "" && SPTexts[1].text != "" && SPTexts[2].text != "" && SPTexts[3].text != "" && SPTexts[4].text != "" && SPTexts[5].text != ""
+                && SPTexts[6].text != "" && SPTexts[7].text != "" && SPTexts[8].text != "")
+        {
+            End = true;
+        }
+
+        pressed1 = false;
+        pressed2 = false;
+        pressed3 = false;
+        pressed4 = false;
+        pressed5 = false;
+        pressed6 = false;
+        pressed7 = false;
+        pressed8 = false;
+        pressed9 = false;
+        PlayerTurn = true;
+    }
+
+
+    void MachinePlayHard()
+    {
+        for(int i = 0; i<100; i++)
+        { 
+            random = Random.Range(0, 9);
+            //primera jugada (si empieza la maquina)
+            if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                random = Random.Range(0, 5);
+                SPTexts[firstPlay[random]].text = "O";
+                break;
+            }
+            //jugada en el centro
+            else if(SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            //jugada en las esquinas
+            else if (SPTexts[4].text == "X" && SPTexts[0].text == "" && SPTexts[2].text == "" && SPTexts[6].text == "" && SPTexts[8].text == "")
+            {
+                random = Random.Range(0, 4);
+                SPTexts[corners[random]].text = "O";
+                break;
+            }
+            //evitar perder cuando juegan en el medio
+            else if(SPTexts[4].text == "X" && SPTexts[0].text == "O" && SPTexts[8].text == "X" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "X" && SPTexts[2].text == "O" && SPTexts[6].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "X" && SPTexts[8].text == "O" && SPTexts[0].text == "X" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "X" && SPTexts[6].text == "O" && SPTexts[2].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            //evitar perder cuando juegan en las esquinas
+            else if (SPTexts[2].text == "X" && SPTexts[4].text == "O" && SPTexts[6].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                random = Random.Range(0, 4);
+                SPTexts[notcorners[random]].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[4].text == "O" && SPTexts[8].text == "X" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "")
+            {
+                random = Random.Range(0, 4);
+                SPTexts[notcorners[random]].text = "O";
+                break;
+            }
+            //tratar de ganar con jugada en el centro (x en esquinas)
+            //1
+            else if(SPTexts[2].text == "X" && SPTexts[4].text == "O" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[3].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "X" && SPTexts[4].text == "O" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[3].text == "X"
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "X" && SPTexts[4].text == "O" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[3].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            //2
+            else if (SPTexts[0].text == "X" && SPTexts[4].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[4].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "X" && SPTexts[8].text == "O")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[4].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == ""
+                && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            //3
+            else if (SPTexts[4].text == "O" && SPTexts[6].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[6].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O"
+                && SPTexts[3].text == "" && SPTexts[5].text == "X" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[6].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "X" && SPTexts[2].text == "O"
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            //4
+            else if (SPTexts[4].text == "O" && SPTexts[8].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[8].text == "X" && SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "X" && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[8].text == "X" && SPTexts[0].text == "O" && SPTexts[1].text == "X" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            //tratar de ganar con jugada en el centro (x en no esquinas)
+            else if (SPTexts[4].text == "O" && SPTexts[1].text == "X" && SPTexts[0].text == "" && SPTexts[2].text == "" && SPTexts[3].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[5].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[7].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[3].text == "" && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[3].text == "X" && SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            //tratar de ganar con jugada en esquina (x en centro)
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == "X"
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == "X"
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == "X"
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == "X"
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            //tratar de ganar con jugada en esquina (x en esquina)
+            //1
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "X" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "X" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "X" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "X")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            //2
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "X")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "X")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "X" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "X" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            //3
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "X" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "X" && SPTexts[6].text == "X" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "X")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            //4
+            else if (SPTexts[0].text == "X" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "X" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "X" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            //tratar de ganar con jugada en esquina (x en no esquina)
+            //1
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "X" && SPTexts[8].text == "O")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "X" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "X" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            //2
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "X" && SPTexts[2].text == "O" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "X" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "X" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "O" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            //3
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "X" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "X" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "X" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            //4
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "X" && SPTexts[8].text == "O")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "O" && SPTexts[3].text == "" && SPTexts[4].text == ""
+                && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "X" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "X" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "X" && SPTexts[6].text == "O" && SPTexts[7].text == "X" && SPTexts[8].text == "O")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "" && SPTexts[2].text == "" && SPTexts[3].text == "X" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "" && SPTexts[1].text == "X" && SPTexts[2].text == "" && SPTexts[3].text == "" && SPTexts[4].text == ""
+               && SPTexts[5].text == "" && SPTexts[6].text == "" && SPTexts[7].text == "" && SPTexts[8].text == "O")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            //ultima jugada para ganar  
+            else if (SPTexts[0].text == "O" && SPTexts[1].text == "O" && SPTexts[2].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[2].text == "O" && SPTexts[1].text == "")
+            {
+                SPTexts[1].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[3].text == "O" && SPTexts[6].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[6].text == "O" && SPTexts[3].text == "")
+            {
+                SPTexts[3].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[4].text == "O" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "O" && SPTexts[8].text == "O" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[1].text == "O" && SPTexts[2].text == "O" && SPTexts[0].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[1].text == "O" && SPTexts[4].text == "O" && SPTexts[7].text == "")
+            {
+                SPTexts[7].text = "O";
+                break;
+            }
+            else if (SPTexts[1].text == "O" && SPTexts[7].text == "O" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "O" && SPTexts[4].text == "O" && SPTexts[6].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "O" && SPTexts[6].text == "O" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "O" && SPTexts[5].text == "O" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "O" && SPTexts[8].text == "O" && SPTexts[5].text == "")
+            {
+                SPTexts[5].text = "O";
+                break;
+            }
+            else if (SPTexts[3].text == "O" && SPTexts[4].text == "O" && SPTexts[5].text == "")
+            {
+                SPTexts[5].text = "O";
+                break;
+            }
+            else if (SPTexts[3].text == "O" && SPTexts[5].text == "O" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[3].text == "O" && SPTexts[6].text == "O" && SPTexts[0].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[5].text == "O" && SPTexts[3].text == "")
+            {
+                SPTexts[3].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[7].text == "O" && SPTexts[1].text == "")
+            {
+                SPTexts[1].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[8].text == "O" && SPTexts[0].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "O" && SPTexts[6].text == "O" && SPTexts[2].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[5].text == "O" && SPTexts[8].text == "O" && SPTexts[2].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[6].text == "O" && SPTexts[7].text == "O" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[6].text == "O" && SPTexts[8].text == "O" && SPTexts[7].text == "")
+            {
+                SPTexts[7].text = "O";
+                break;
+            }
+            else if (SPTexts[7].text == "O" && SPTexts[8].text == "O" && SPTexts[6].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            //jugada para evitar perder  
+            else if (SPTexts[0].text == "X" && SPTexts[1].text == "X" && SPTexts[2].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[2].text == "X" && SPTexts[1].text == "")
+            {
+                SPTexts[1].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[3].text == "X" && SPTexts[6].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[6].text == "X" && SPTexts[3].text == "")
+            {
+                SPTexts[3].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[4].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[0].text == "X" && SPTexts[8].text == "X" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[1].text == "X" && SPTexts[2].text == "X" && SPTexts[0].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[1].text == "X" && SPTexts[4].text == "X" && SPTexts[7].text == "")
+            {
+                SPTexts[7].text = "O";
+                break;
+            }
+            else if (SPTexts[1].text == "X" && SPTexts[7].text == "X" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "X" && SPTexts[4].text == "X" && SPTexts[6].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "X" && SPTexts[6].text == "X" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "X" && SPTexts[5].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[2].text == "X" && SPTexts[8].text == "X" && SPTexts[5].text == "")
+            {
+                SPTexts[5].text = "O";
+                break;
+            }
+            else if (SPTexts[3].text == "X" && SPTexts[4].text == "X" && SPTexts[5].text == "")
+            {
+                SPTexts[5].text = "O";
+                break;
+            }
+            else if (SPTexts[3].text == "X" && SPTexts[5].text == "X" && SPTexts[4].text == "")
+            {
+                SPTexts[4].text = "O";
+                break;
+            }
+            else if (SPTexts[3].text == "X" && SPTexts[6].text == "X" && SPTexts[0].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "X" && SPTexts[5].text == "X" && SPTexts[3].text == "")
+            {
+                SPTexts[3].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "X" && SPTexts[7].text == "X" && SPTexts[1].text == "")
+            {
+                SPTexts[1].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "X" && SPTexts[8].text == "X" && SPTexts[0].text == "")
+            {
+                SPTexts[0].text = "O";
+                break;
+            }
+            else if (SPTexts[4].text == "X" && SPTexts[6].text == "X" && SPTexts[2].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[5].text == "X" && SPTexts[8].text == "X" && SPTexts[2].text == "")
+            {
+                SPTexts[2].text = "O";
+                break;
+            }
+            else if (SPTexts[6].text == "X" && SPTexts[7].text == "X" && SPTexts[8].text == "")
+            {
+                SPTexts[8].text = "O";
+                break;
+            }
+            else if (SPTexts[6].text == "X" && SPTexts[8].text == "X" && SPTexts[7].text == "")
+            {
+                SPTexts[7].text = "O";
+                break;
+            }
+            else if (SPTexts[7].text == "X" && SPTexts[8].text == "X" && SPTexts[6].text == "")
+            {
+                SPTexts[6].text = "O";
+                break;
+            }
+            //default
+            else if (SPTexts[random].text == "")
+            {
+                SPTexts[random].text = "O";
+                break;
+            }
+            else if(SPTexts[0].text != "" && SPTexts[1].text != "" && SPTexts[2].text != "" && SPTexts[3].text != "" && SPTexts[4].text != "" && SPTexts[5].text != "" 
+                && SPTexts[6].text != "" && SPTexts[7].text != "" && SPTexts[8].text != "")
+            {
+                End = true;
+                break;
+            }
+        }
+
+        if (SPTexts[0].text != "" && SPTexts[1].text != "" && SPTexts[2].text != "" && SPTexts[3].text != "" && SPTexts[4].text != "" && SPTexts[5].text != ""
+                && SPTexts[6].text != "" && SPTexts[7].text != "" && SPTexts[8].text != "")
         {
             End = true;
         }
@@ -892,14 +1725,14 @@ public class SPManager : MonoBehaviour
 
     bool PlayerWon()
     {
-        if ((Text[0].text == "X" && Text[1].text == "X" && Text[2].text == "X") ||
-       (Text[0].text == "X" && Text[4].text == "X" && Text[8].text == "X") ||
-       (Text[0].text == "X" && Text[3].text == "X" && Text[6].text == "X") ||
-       (Text[1].text == "X" && Text[4].text == "X" && Text[7].text == "X") ||
-       (Text[2].text == "X" && Text[5].text == "X" && Text[8].text == "X") ||
-       (Text[3].text == "X" && Text[4].text == "X" && Text[5].text == "X") ||
-       (Text[6].text == "X" && Text[7].text == "X" && Text[8].text == "X") ||
-       (Text[2].text == "X" && Text[4].text == "X" && Text[6].text == "X"))
+        if ((SPTexts[0].text == "X" && SPTexts[1].text == "X" && SPTexts[2].text == "X") ||
+       (SPTexts[0].text == "X" && SPTexts[4].text == "X" && SPTexts[8].text == "X") ||
+       (SPTexts[0].text == "X" && SPTexts[3].text == "X" && SPTexts[6].text == "X") ||
+       (SPTexts[1].text == "X" && SPTexts[4].text == "X" && SPTexts[7].text == "X") ||
+       (SPTexts[2].text == "X" && SPTexts[5].text == "X" && SPTexts[8].text == "X") ||
+       (SPTexts[3].text == "X" && SPTexts[4].text == "X" && SPTexts[5].text == "X") ||
+       (SPTexts[6].text == "X" && SPTexts[7].text == "X" && SPTexts[8].text == "X") ||
+       (SPTexts[2].text == "X" && SPTexts[4].text == "X" && SPTexts[6].text == "X"))
         {
             return true;
         }
@@ -909,14 +1742,14 @@ public class SPManager : MonoBehaviour
 
     bool MachineWon()
     {
-        if ((Text[0].text == "O" && Text[1].text == "O" && Text[2].text == "O") ||
-       (Text[0].text == "O" && Text[4].text == "O" && Text[8].text == "O") ||
-       (Text[0].text == "O" && Text[3].text == "O" && Text[6].text == "O") ||
-       (Text[1].text == "O" && Text[4].text == "O" && Text[7].text == "O") ||
-       (Text[2].text == "O" && Text[5].text == "O" && Text[8].text == "O") ||
-       (Text[3].text == "O" && Text[4].text == "O" && Text[5].text == "O") ||
-       (Text[6].text == "O" && Text[7].text == "O" && Text[8].text == "O") ||
-       (Text[2].text == "O" && Text[4].text == "O" && Text[6].text == "O"))
+        if ((SPTexts[0].text == "O" && SPTexts[1].text == "O" && SPTexts[2].text == "O") ||
+       (SPTexts[0].text == "O" && SPTexts[4].text == "O" && SPTexts[8].text == "O") ||
+       (SPTexts[0].text == "O" && SPTexts[3].text == "O" && SPTexts[6].text == "O") ||
+       (SPTexts[1].text == "O" && SPTexts[4].text == "O" && SPTexts[7].text == "O") ||
+       (SPTexts[2].text == "O" && SPTexts[5].text == "O" && SPTexts[8].text == "O") ||
+       (SPTexts[3].text == "O" && SPTexts[4].text == "O" && SPTexts[5].text == "O") ||
+       (SPTexts[6].text == "O" && SPTexts[7].text == "O" && SPTexts[8].text == "O") ||
+       (SPTexts[2].text == "O" && SPTexts[4].text == "O" && SPTexts[6].text == "O"))
         {
             return true;
         }
